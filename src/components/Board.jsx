@@ -1,22 +1,52 @@
 import Square from "./Square";
 
-const Board = ()=>{
-    return <div className="board">
-        <div className="board-row">
-            <Square value = {0}/>
-            <Square value = {1}/>
-            <Square value = {2}/>
+const Board = ({squares,setSquares,isXNext,setisXNext})=>{
+    
+    const handleSquareClick =(position)=>{
+        if(squares[position]!=null)
+            return ; 
+        
+        setSquares(squares.map((value,idx)=>{
+            if(idx==position)
+            {
+                if(isXNext){
+                    setisXNext(false);
+                    return 'X';
+                }
+                else{
+                    setisXNext(true);
+                    return 'O';
+                }
+            }
+            return value;
+        }));
+    };
+    const renderSquare = (position)=>{
+        // console.log(position);
+        return (
+            <Square value ={squares[position]} onClick={()=>{
+                return handleSquareClick(position);
+            }}/>
+        )
+    } 
+    return(
+        <div className="board">
+            <div className="board-row">
+                {renderSquare(0)}
+                {renderSquare(1)}
+                {renderSquare(2)}
+            </div>
+            <div className="board-row">
+                {renderSquare(3)}
+                {renderSquare(4)}
+                {renderSquare(5)}
+            </div>
+            <div className="board-row">
+                {renderSquare(6)}
+                {renderSquare(7)}
+                {renderSquare(8)}
+            </div>
         </div>
-        <div className="board-row">
-            <Square value = {3}/>
-            <Square value = {4}/>
-            <Square value = {5}/>
-        </div>
-        <div className="board-row">
-            <Square value = {6}/>
-            <Square value = {7}/>
-            <Square value = {8}/>
-        </div>
-    </div>
+    );
 }
 export default Board;
